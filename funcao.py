@@ -41,6 +41,7 @@ def trapezio_iterativos(f,c,d,n):
         area_total += trapezio_simples(f,lim_i,lim_s)
     return area_total
 
+
 def forca_bruta(f, c, d, max_iter=100000):
     counter = 2
     while counter < max_iter:
@@ -50,6 +51,7 @@ def forca_bruta(f, c, d, max_iter=100000):
             return f"{trapezio_iterativos(f,c,d,counter)} quando n={counter}"  # Encontrou o valor onde Tn == Tn-1
         counter += 1
     return None # Não encontrou nada
+
 
 def simpson_simples(f,c,d):
     if c>d:
@@ -69,13 +71,32 @@ def simpson_recursivos(f,c,d,n):
 
 def greedy(f,c,d,epsilon):
     for n in range(2,30):
-        t_1 = trapezio_iterativos(f,c,d,n)
-        t_2 = trapezio_iterativos(f,c,d,n-1)
+        t_1 = trapezio_recursivos(f,c,d,n)
+        t_2 = trapezio_recursivos(f,c,d,n-1)
         s_1 = simpson_recursivos(f,c,d,n)
         if modulo(t_1-t_2)<epsilon and modulo(t_1-s_1)<epsilon:
-            return t_1
+            return f"{t_1} com n = {n}"
     return None
 
-greedy(f1,0,2,0.000001)
+def abordagem_dinamica(f,c,d,epsilon):
+    # Armazenamento de resultados
+    resultados = {}
 
+    def I(c,d,n):
+        if (c,d) in resultados:
+            return resultados[(c,d)]
+        # Calculo da area
+        t_1 = trapezio_simples(f,c,d)
+        meio = (c + d)/2
+        s_1 = simpson_simples(f,c,d)
 
+        if modulo(t_1 - s_1) > epsilon / (2**(n+1)): # Comparar
+            valor1 = I(c,meio, n+1)
+            valor2 = I(meio,d, n+1)
+            resultado = valor1 + valor2
+        else:
+            resultado = s_1
+
+        resultados[(c,d)] = resultado
+        return resultado
+    return I(c,d,0)

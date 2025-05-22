@@ -1,0 +1,10 @@
+Em casos destes seria mais vantajoso utilizar as funções de forma iterativa, uma vez que
+é possivel guardar resultados de iterações em variáveis. Para além disso, a recursividade
+repete cálculos desnecessários.
+Entre Forward e Backtracking, será mais eficiente utilizar backtracing dado que para
+funções mais pesadas normalmente o valor de n seria em valores maiores, isto é, permite
+reduzir o número de iterações que acontecem no código tornando-a assim na abordagem mais eficaz.
+O resultado de Tn pode ser reutilizado para calcular (2^a)n, pois ao calcular Tn está a poupar
+cálculos médios de T(2^a)n
+Em relação para o método de Simpson não é possivel uma vez que como os extremos estão em constante
+mudança não é possivel aproveitar Sn
